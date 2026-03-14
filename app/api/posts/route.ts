@@ -2,7 +2,10 @@ import { auth } from "@clerk/nextjs/server";
 import prisma from "@/app/lib/prisma";
 
 export async function POST(req: Request) {
-  const { userId: clerkId } = await auth();
+
+  const authData = await auth();
+  const clerkId = authData.userId;
+
   if (!clerkId) return new Response("Unauthorized", { status: 401 });
 
   const { title, content } = await req.json(); 
